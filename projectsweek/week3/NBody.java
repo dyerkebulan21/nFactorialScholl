@@ -44,51 +44,50 @@ public class NBody {
         for (double t = 0.0; t <= T; t += dt) {
             //StdOut.println("t = " + t);
 
-            while (true) {
-                double[] fx = new double[n];
-                double[] fy = new double[n];
-                double[] ax = new double[n];
-                double[] ay = new double[n];
-                StdDraw.picture(0, 0, "starfield.jpg");
-                StdAudio.play("2001.wav");
-                for (int i = 0; i < n; i++) {
-                    for (int j = 0; j < n; j += 1) {
-                        if (i != j) {
-                            double deltaX = px[j] - px[i];
-                            double deltaY = py[j] - py[i];
-                            double RtoIJ = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                            double FIJ = G * mass[i] * mass[j] / Math.pow(RtoIJ, 2);
-                            double FxItoJ = FIJ * (px[j] - px[i]) / RtoIJ;
-                            double FyItoJ = FIJ * (py[j] - py[i]) / RtoIJ;
-                            fx[i] += FxItoJ;
-                            fy[i] += FyItoJ;
-                        }
-
+      
+            double[] fx = new double[n];
+            double[] fy = new double[n];
+            double[] ax = new double[n];
+            double[] ay = new double[n];
+            StdDraw.picture(0, 0, "starfield.jpg");
+            StdAudio.play("2001.wav");
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j += 1) {
+                    if (i != j) {
+                        double deltaX = px[j] - px[i];
+                        double deltaY = py[j] - py[i];
+                        double RtoIJ = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                        double FIJ = G * mass[i] * mass[j] / Math.pow(RtoIJ, 2);
+                        double FxItoJ = FIJ * (px[j] - px[i]) / RtoIJ;
+                        double FyItoJ = FIJ * (py[j] - py[i]) / RtoIJ;
+                        fx[i] += FxItoJ;
+                        fy[i] += FyItoJ;
                     }
 
                 }
 
-                for (int g = 0; g < n; g++) {
+            }
 
-                    ax[g] = fx[g] / mass[g];
-                    ay[g] = fy[g] / mass[g];
-                    vx[g] = vx[g] + (ax[g] * dt);
-                    px[g] = px[g] + (vx[g] * dt);
-                    vy[g] = vy[g] + (ay[g] * dt);
-                    py[g] = py[g] + (vy[g] * dt);
-                    StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
-                                  px[g], py[g], vx[g], vy[g], mass[g], image[g]);
+            for (int g = 0; g < n; g++) {
 
-                }
-
-                for (int i = 0; i < n; i++) {
-                    StdDraw.picture(px[i], py[i], image[i]);
-                }
-
-                StdDraw.show();
-                StdDraw.pause(20);
+                ax[g] = fx[g] / mass[g];
+                ay[g] = fy[g] / mass[g];
+                vx[g] = vx[g] + (ax[g] * dt);
+                px[g] = px[g] + (vx[g] * dt);
+                vy[g] = vy[g] + (ay[g] * dt);
+                py[g] = py[g] + (vy[g] * dt);
+                StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                              px[g], py[g], vx[g], vy[g], mass[g], image[g]);
 
             }
+
+            for (int i = 0; i < n; i++) {
+                StdDraw.picture(px[i], py[i], image[i]);
+            }
+
+            StdDraw.show();
+            StdDraw.pause(20);
+
 
         }
 
